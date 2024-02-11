@@ -8,9 +8,9 @@
             <div class="justify-content-center align-self-center">
               <h2><strong>Delicious Food Menu,</strong><br />in Your Gadget</h2>
               <p>Ayo Pesan Makanan Anda!!</p>
-              <button class="btn btn-warning">
+              <router-link to="/foods" class="btn btn-warning">
                 <b-icon-bell></b-icon-bell> Pesan
-              </button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -31,9 +31,9 @@
             <div class="justify-content-center align-self-center">
               <h2><strong>Delicious Food Menu,</strong><br />in Your Gadget</h2>
               <p>Ayo Pesan Makanan Anda!!</p>
-              <button class="btn btn-warning">
+              <router-link to="/foods" class="btn btn-warning">
                 <b-icon-bell></b-icon-bell> Pesan
-              </button>
+              </router-link>
             </div>
           </div>
         </div>
