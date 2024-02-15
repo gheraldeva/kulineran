@@ -5,3 +5,6 @@
 .router-link-exact-active{
     font-weight: bold;
 }
+.breadcrumb{
+    background-color: transparent;
+}

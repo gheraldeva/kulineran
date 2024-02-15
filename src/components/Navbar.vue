@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <router-link class="navbar-brand" to="/">Kulineran</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -25,10 +25,10 @@
 
         <ul class="ml-auto navbar-nav">
           <li>
-            <router-link class="nav-link" to="/keranjang">
+            <router-link class="nav-link" to="/cart">
               Keranjang
               <b-icon-cart></b-icon-cart>
-              <span class="badge badge-warning">0</span>
+              <span class="badge badge-warning">{{updateKeranjang ? updateKeranjang.length : jumlah_pesanan.length}}</span>
             </router-link>
           </li>
         </ul>
@@ -38,8 +38,27 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+
 export default {
   name: "NavbarView",
+  data(){
+    return {
+      jumlah_pesanan: []
+    }
+  },
+  props: ['updateKeranjang'],
+  methods:{
+    setJumlah(data) {
+      this.jumlah_pesanan = data
+    }
+  },mounted(){
+    axios
+      .get("http://localhost:3000/keranjangs")
+      .then((response) => this.setJumlah(response.data))
+      .catch((error) => console.log(error))
+  }
 };
 </script>
 
