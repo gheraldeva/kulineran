@@ -77,6 +77,33 @@
           </table>
         </div>
       </div>
+
+      <div class="row justify-content-end">
+        <div class="col-md-4">
+          <form v-on:submit.prevent>
+            <div class="form-group mt-3">
+              <label for="nama">Nama</label>
+              <input
+                type="text"
+                class="form-control"
+                v-model="pesanan.nama"
+              />
+            </div>
+            <div class="form-group mt-3">
+              <label for="noMeja">No Meja</label>
+              <input
+                type="number"
+                class="form-control"
+                v-model="pesanan.noMeja"
+              />
+            </div>
+
+            <button type="submit" class="btn btn-warning float-right" @click="checkout">
+              <b-icon-bell-fill></b-icon-bell-fill>Pesan
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -92,6 +119,7 @@ export default {
   data() {
     return {
       keranjangs: [],
+      pesanan: {}
     };
   },
   methods: {
@@ -122,6 +150,37 @@ export default {
           console.log("Error : " + error);
         });
     },
+    checkout(){
+      if(this.pesanan.nama && this.pesanan.noMeja){
+        this.pesanan.keranjangs = this.keranjangs
+
+        axios
+          .post("http://localhost:3000/pesanans", this.pesanan)
+          .then(() => {
+            this.keranjangs.map((item)=>{
+              return axios
+                      .delete("http://localhost:3000/keranjangs/" + item.id)
+                      .catch((err) => console.log(err))
+            })
+
+            this.$router.push({ path : "/pesanan-sukses"})
+            this.$toast.success("Sukses Dipesan" , {
+              type : "success",
+              position : "top-right",
+              duration : 3000,
+              dismissable : true,
+            })
+          })
+          .catch((err) => console.log(err))
+      }else{
+        this.$toast.error("Nama dan No. Meja Harus diisi", {
+            type: "error",
+            position: "top-right",
+            duration: 3000,
+            dismissable: true,
+          });
+      }
+    }
   },
   mounted() {
     axios

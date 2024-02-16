@@ -50,7 +50,7 @@ export default {
   },
   mounted(){
     axios
-      .get("https://my-json-server.typicode.com/gheraldeva/product_kulineran/best-products")
+      .get("http://localhost:3000/best-products")
       .then((response) => {
         this.setProducts(response.data)
       })

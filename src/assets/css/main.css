@@ -8,3 +8,7 @@
 .breadcrumb{
     background-color: transparent;
 }
+
+li {
+    text-decoration: none
+}
