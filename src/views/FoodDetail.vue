@@ -83,7 +83,7 @@ export default {
     pemesanan() {
       if (this.pesanan.jumlah_pesan) {
         this.pesanan.products = this.product;
-        console.log(this.pesanan);
+        console.log(this.pesanan)
         axios({
           method: "POST",
           headers: {

@@ -5,6 +5,7 @@ import FoodsView from "../views/Foods.vue"
 import FoodDetail from "../views/FoodDetail.vue"
 import CartView from "../views/CartView.vue"
 import PesananSukses from "../views/PesananSukses.vue"
+import AdminView from "../views/AdminView.vue"
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/pesanan-sukses',
     name: 'PesananSukses',
     component: PesananSukses
+  },
+  {
+    path: '/admin',
+    name: 'AdminView',
+    component: AdminView
   },
   {
     path: '/about',

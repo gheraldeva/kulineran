@@ -32,7 +32,7 @@
 
       <div class="row mt-3 mb-3">
         <div
-          class="col-md-4 mb-2 d-flex justify-content-center"
+          class="col-md-4 mb-3 d-flex justify-content-center"
           v-for="product in products"
           :key="product.id"
         >
@@ -57,7 +57,7 @@ export default {
   data() {
     return {
       products: [],
-      search : ''
+      search: "",
     };
   },
   methods: {
@@ -66,7 +66,7 @@ export default {
     },
     searchProduct() {
       axios
-        .get("https://my-json-server.typicode.com/gheraldeva/product_kulineran/products?q=" + this.search)
+        .get("http://localhost:3000/products?q=" + this.search)
         .then((response) => {
           this.setProducts(response.data);
         })
@@ -77,9 +77,7 @@ export default {
   },
   mounted() {
     axios
-      .get(
-        "https://my-json-server.typicode.com/gheraldeva/product_kulineran/products"
-      )
+      .get("http://localhost:3000/products")
       .then((response) => {
         this.setProducts(response.data);
       })

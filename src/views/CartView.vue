@@ -83,11 +83,7 @@
           <form v-on:submit.prevent>
             <div class="form-group mt-3">
               <label for="nama">Nama</label>
-              <input
-                type="text"
-                class="form-control"
-                v-model="pesanan.nama"
-              />
+              <input type="text" class="form-control" v-model="pesanan.nama" />
             </div>
             <div class="form-group mt-3">
               <label for="noMeja">No Meja</label>
@@ -98,7 +94,11 @@
               />
             </div>
 
-            <button type="submit" class="btn btn-warning float-right" @click="checkout">
+            <button
+              type="submit"
+              class="btn btn-warning float-right"
+              @click="checkout"
+            >
               <b-icon-bell-fill></b-icon-bell-fill>Pesan
             </button>
           </form>
@@ -118,15 +118,18 @@ export default {
 
   data() {
     return {
-      keranjangs: [],
-      pesanan: {}
+      keranjangs: {},
+      pesanan: {},
+      product:[]
     };
   },
+  props: ["updatePage"],
   methods: {
     setKeranjangs(data) {
       this.keranjangs = data;
     },
     hapusKeranjang(id) {
+      console.log(id);
       axios
         .delete("http://localhost:3000/keranjangs/" + id)
         .then(() => {
@@ -136,7 +139,6 @@ export default {
             duration: 3000,
             dismissable: true,
           });
-
           axios
             .get("http://localhost:3000/keranjangs")
             .then((response) => {
@@ -150,37 +152,44 @@ export default {
           console.log("Error : " + error);
         });
     },
-    checkout(){
-      if(this.pesanan.nama && this.pesanan.noMeja){
-        this.pesanan.keranjangs = this.keranjangs
+    checkout() {
+      if (this.pesanan.nama && this.pesanan.noMeja) {
 
         axios
-          .post("http://localhost:3000/pesanans", this.pesanan)
+          .post("http://localhost:3000/product_checkout/", this.keranjangs)
           .then(() => {
-            this.keranjangs.map((item)=>{
-              return axios
-                      .delete("http://localhost:3000/keranjangs/" + item.id)
-                      .catch((err) => console.log(err))
-            })
+            this.keranjangs.map(async (item) => {
+              console.log(item);
+              console.log(item.id);
+              try {
+                return await axios
+                  .delete("http://localhost:3000/keranjangs/"+item.id);
+              } catch(err) {
+                return console.log(err);
+              }
+            });
 
-            this.$router.push({ path : "/pesanan-sukses"})
-            this.$toast.success("Sukses Dipesan" , {
-              type : "success",
-              position : "top-right",
-              duration : 3000,
-              dismissable : true,
-            })
+            this.$router.push({ path: "/pesanan-sukses" });
+            this.$toast.success("Sukses Dipesan", {
+              type: "success",
+              position: "top-right",
+              duration: 3000,
+              dismissable: true,
+            });
           })
-          .catch((err) => console.log(err))
-      }else{
+          .catch((err) => console.log(err));
+        this.product.products = this.pesanan
+        axios
+          .post("http://localhost:3000/pesanans/", this.product.products)
+      } else {
         this.$toast.error("Nama dan No. Meja Harus diisi", {
-            type: "error",
-            position: "top-right",
-            duration: 3000,
-            dismissable: true,
-          });
+          type: "error",
+          position: "top-right",
+          duration: 3000,
+          dismissable: true,
+        });
       }
-    }
+    },
   },
   mounted() {
     axios
